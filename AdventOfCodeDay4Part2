@@ -1,0 +1,58 @@
+package test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class AdventOfCodeDay4Part2 {
+	
+//number of valid 6-digit passwords
+static int validValues = 0;
+	
+public static void main(String[] args) {
+	
+	try {
+		for(Integer i = 147981; i < 691423; i++) {
+			Boolean doubleFlag = false;  //needs to be True
+			Boolean leftRightFlag = true; //needs to be True
+			List<String> valueAsList = Arrays.asList(i.toString().split(""));
+			int index = 0;
+			//<5 because it needs to have last loop one before final index 5 for line 20
+			while (index < 5) {
+			String starterPosition = valueAsList.get(index);
+			String starterPositionMinus;
+			String starterPositionPlusOne = valueAsList.get(index+1);
+			String starterPositionPlusPlus;
+			if(index == 0) {
+				starterPositionMinus = "no";
+			} else {
+				starterPositionMinus = valueAsList.get(index-1);
+			}
+			if(index == 4) {
+				starterPositionPlusPlus = "no";
+			} else {
+				starterPositionPlusPlus = valueAsList.get(index+2);
+			}
+			//checking for double number
+			if(starterPosition.equals(starterPositionPlusOne) && !starterPosition.equals(starterPositionMinus) && !starterPosition.equals(starterPositionPlusPlus)) {
+				doubleFlag = true;
+			}
+			index++;
+			}
+			//check for left to right rule that digits can't decrease
+			for(int k =0; k < valueAsList.size() - 1; k++) {
+				if(Integer.parseInt(valueAsList.get(k)) > Integer.parseInt(valueAsList.get(k+1))) {
+					leftRightFlag = false;
+				}
+			}
+			if(leftRightFlag == true && doubleFlag == true) {
+				validValues++;
+				System.out.println(i);
+			}
+			}
+	} catch (Exception e) {
+		e.printStackTrace();	
+	}
+	System.out.println("Final password #: " + validValues);
+	
+}
